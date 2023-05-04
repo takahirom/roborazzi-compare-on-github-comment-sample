@@ -28,12 +28,12 @@ And it also saves the cost of the storage because the screenshot of the outdated
 
 <img src="https://user-images.githubusercontent.com/1386930/236188326-ddd617ae-b216-476c-9d92-e36ad02a2670.png" width="600" />
 
-# Why not use GitHub Actions artifacts?
+### Why not use GitHub Actions artifacts?
 
 GitHub Actions artifacts is a good way to store the screenshot.
 However, it is not easy to see the changes of the screenshot on pull requests because the artifacts are stored as a zip file.
 
-# Why not commit the screenshot to the feature branch?
+### Why not commit the screenshot to the feature branch?
 
 It is also a good way to store the screenshot.
 However, the stored screenshot is not deleted and remains in the repository because Git keeps the history of the commits.
