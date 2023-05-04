@@ -23,5 +23,17 @@ Please see .github/workflows for the workflow definition.
 The companion branch approach is a way to store the screenshot of the feature branches.
 When a pull request is created, the screenshot of the feature branch is stored in the companion branch.
 When the branch is outdated, the branch is deleted.
+This approach allow users to see changes of the screenshot of the feature branch on pull requests.
+And it also save the cost of the storage because the screenshot of the outdated branches are deleted.
 
 <img src="https://user-images.githubusercontent.com/1386930/236188326-ddd617ae-b216-476c-9d92-e36ad02a2670.png" width="600" />
+
+# Why don't we use GitHub Actions artifacts?
+
+GitHub Actions artifacts is a good way to store the screenshot.
+However, it is not easy to see the changes of the screenshot on pull requests.
+
+# Why don't we commit the screenshot to the feature branch?
+
+It is also a good way to store the screenshot.
+However, the stored screenshot is not deleted and remains in the repository.
