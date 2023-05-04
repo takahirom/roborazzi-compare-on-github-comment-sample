@@ -52,7 +52,17 @@ jobs:
         with:
           run_id: ${{ github.event.workflow_run.id }}
           name: screenshot-diff
-          path: diff-reports
+          path: screenshot-diff
+      - id: check
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
+        run:
+          # orphan means it will create no history branch
+          git add .
+          git config --global user.name ScreenshotBot
+          git config --global push.default current
+          git config --global remote.pushDefault origin
+          git push origin $BRANCH_NAME
       - id: generate-diff-reports
         name: Generate diff reports
         shell: bash
@@ -68,7 +78,7 @@ jobs:
           
           # Iterate over the files and create table rows
           for file in $files; do
-          echo "| ![]($file) |" >> $GITHUB_OUTPUT
+          echo "| ![](https://github.com/droidkaigi/conference-app-2022/blob/$BRANCH_NAME/$file) |" >> $GITHUB_OUTPUT
           done
           echo "${delimiter}" >> $GITHUB_OUTPUT
 
