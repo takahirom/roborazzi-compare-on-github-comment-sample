@@ -7,26 +7,11 @@ on:
     types:
       - completed
 
-permissions: { }
-
-run-name: ${{ github.event.workflow_run.name }} - ${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}
-
-concurrency:
-  group: compare-screenshot-workflow-hook-${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}-${{ github.event.workflow_run.name }}
-  cancel-in-progress: true
-
 jobs:
   Comment-CompareScreenshot:
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
-
-    permissions:
-      actions: read # for downloading artifacts
-      contents: write # for writing screenshot on branch
-      issues: none
-      checks: none
-      pull-requests: write # for creating a comment on pull requests
 
     timeout-minutes: 2
 
