@@ -80,6 +80,7 @@ jobs:
           echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
           
           # Create markdown table header
+          echo "Snapshot diff report" >> $GITHUB_OUTPUT
           echo "| Image |" >> $GITHUB_OUTPUT
           echo "|-------|" >> $GITHUB_OUTPUT
           
@@ -88,9 +89,17 @@ jobs:
           echo "| ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file?raw=true) |" >> $GITHUB_OUTPUT
           done
           echo "${delimiter}" >> $GITHUB_OUTPUT
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Snapshot diff report
 
       - name: Add or update comment on PR
         uses: peter-evans/create-or-update-comment@v3
         with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
