@@ -59,18 +59,17 @@ jobs:
         run: |
           files=$(find . -type f -name "*_compare.png")
           
+          delimiter="$(openssl rand -hex 8)"
+          echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
+          
           # Create markdown table header
-          echo "| Image |"
-          echo "|-------|"
+          echo "| Image |" >> $GITHUB_OUTPUT
+          echo "|-------|" >> $GITHUB_OUTPUT
           
           # Iterate over the files and create table rows
           for file in $files; do
-          echo "| ![]($file) |"
+          echo "| ![]($file) |" >> $GITHUB_OUTPUT
           done
-          
-          delimiter="$(openssl rand -hex 8)"
-          echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
-          echo "$reports" >> $GITHUB_OUTPUT
           echo "${delimiter}" >> $GITHUB_OUTPUT
 
       - name: Add or update comment on PR
