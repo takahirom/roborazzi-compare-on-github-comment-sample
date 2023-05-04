@@ -33,8 +33,8 @@ jobs:
         with:
           gradle-version: wrapper
 
-      - name: verify unchanged test
-        id: verify-unchanged-test
+      - name: record screenshot
+        id: record-test
         run: |
           ./gradlew recordRoborazziDebug --stacktrace
 
