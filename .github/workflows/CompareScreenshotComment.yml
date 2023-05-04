@@ -23,7 +23,7 @@ jobs:
 
     permissions:
       actions: read # for downloading artifacts
-      contents: none
+      contents: write # for writing screenshot on branch
       issues: none
       checks: none
       pull-requests: write # for creating a comment on pull requests
@@ -42,41 +42,31 @@ jobs:
         shell: bash
         run: |
           echo "pull_request_number=$(cat NR)" >> $GITHUB_OUTPUT
+      - id: check
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
+        run:
+          # orphan means it will create no history branch
+          git checkout --orphan $BRANCH_NAME
       - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
           run_id: ${{ github.event.workflow_run.id }}
-          name: screenshot-diff-test-results
-          path: .diff-reports
+          name: screenshot-diff
+          path: diff-reports
       - id: generate-diff-reports
         name: Generate diff reports
         shell: bash
         run: |
-          report_file=$(find .diff-reports -type f -name "compare-report.json")
+          files=$(find . -type f -name "*_compare.png")
           
-          if [ -z "$report_file" ]; then
-            echo "Error: compare-report.json not found in .diff-reports directory."
-            exit 1
-          fi
+          # Create markdown table header
+          echo "| Image |"
+          echo "|-------|"
           
-          total=$(jq '.summary.total' "$report_file")
-          added=$(jq '.summary.added' "$report_file")
-          changed=$(jq '.summary.changed' "$report_file")
-          unchanged=$(jq '.summary.unchanged' "$report_file")
-          
-          if ! [[ $total =~ ^[0-9]+$ ]] || ! [[ $added =~ ^[0-9]+$ ]] || ! [[ $changed =~ ^[0-9]+$ ]] || ! [[ $unchanged =~ ^[0-9]+$ ]]; then
-            echo "Error: Invalid data in ${report_file}. Please ensure the file contains valid numeric values for total, added, changed, and unchanged."
-            exit 1
-          fi
-          
-          reports=$(cat << EOF
-          Summary of the Screenshot test Compare Report:
-          
-          Total: ${total}
-          Added: ${added}
-          Changed: ${changed}
-          Unchanged: ${unchanged}
-          EOF
-          )
+          # Iterate over the files and create table rows
+          for file in $files; do
+          echo "| ![]($file) |"
+          done
           
           delimiter="$(openssl rand -hex 8)"
           echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
