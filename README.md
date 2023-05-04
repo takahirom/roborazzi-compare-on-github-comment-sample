@@ -32,6 +32,7 @@ And it also saves the cost of the storage because the screenshot of the outdated
 
 GitHub Actions artifacts is a good way to store the screenshot.
 However, it is not easy to see the changes of the screenshot on pull requests because the artifacts are stored as a zip file.
+It seems LFS has [the same problem](https://github.com/git-lfs/git-lfs/issues/1342).
 
 ### Why not commit the screenshot to the feature branch?
 
