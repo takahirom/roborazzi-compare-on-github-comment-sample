@@ -41,8 +41,8 @@ jobs:
           workflow: StoreScreenshot.yml
           branch: main
 
-      - name: verify unchanged test
-        id: verify-unchanged-test
+      - name: compare screenshot test
+        id: compare-screenshot-test
         run: |
           ./gradlew compareRoborazziDebug --stacktrace -Pscreenshot
 
