@@ -85,7 +85,7 @@ jobs:
           
           # Iterate over the files and create table rows
           for file in $files; do
-          echo "| ![](https://github.com/droidkaigi/conference-app-2022/blob/$BRANCH_NAME/$file) |" >> $GITHUB_OUTPUT
+          echo "| ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file) |" >> $GITHUB_OUTPUT
           done
           echo "${delimiter}" >> $GITHUB_OUTPUT
 
