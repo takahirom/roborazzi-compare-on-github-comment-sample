@@ -58,16 +58,16 @@ jobs:
           run_id: ${{ github.event.workflow_run.id }}
           name: screenshot-diff
           path: screenshot-diff
-      - id: check
+      - id: push-screenshot-diff
         env:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         run:
           # orphan means it will create no history branch
-          git add .
+          git add "*compare.png"
           git config --global user.name ScreenshotBot
           git config --global push.default current
           git config --global remote.pushDefault origin
-          git push origin $BRANCH_NAME
+          git push origin $BRANCH_NAME -F
       - id: generate-diff-reports
         name: Generate diff reports
         shell: bash
