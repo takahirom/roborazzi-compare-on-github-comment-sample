@@ -33,26 +33,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Download PR Number'
-        uses: actions/github-script@v3.1.0
+      - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
-          script: |
-            var artifacts = await github.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: ${{github.event.workflow_run.id }},
-            });
-            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "pr"
-            })[0];
-            var download = await github.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
+          name: pr
+      - id: get-pull-request-number
+        name: Get pull request number
+        shell: bash
+        run: |
+          echo "pull_request_number=$(cat pr/pull_request_number)" > $GITHUB_OUTPUT
       - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
           run_id: ${{ github.event.workflow_run.id }}
@@ -97,5 +85,5 @@ jobs:
       - name: Add or update comment on PR
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ fromJSON(needs.linked-pull-request.outputs.pull-request).number }}
+          issue-number: ${{ steps.get-pull-request-number.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
