@@ -61,7 +61,7 @@ jobs:
       - id: push-screenshot-diff
         env:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
-        run:
+        run: |
           git add "*compare.png"
           git push origin $BRANCH_NAME -f
       - id: generate-diff-reports
