@@ -63,6 +63,7 @@ jobs:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         run: |
           git add "*compare.png"
+          git commit -m "Add screenshot diff"
           git push origin HEAD:$BRANCH_NAME -f
       - id: generate-diff-reports
         name: Generate diff reports
