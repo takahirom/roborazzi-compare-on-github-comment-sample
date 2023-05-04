@@ -18,7 +18,7 @@ Please see .github/workflows for the workflow definition.
 
 [CompareScreenshotComment.yml](.github%2Fworkflows%2FCompareScreenshotComment.yml) is the workflow to comment the result of the comparison on the pull request.
 
-## About The companion branch approach
+## About the companion branch approach
 
 The companion branch approach is a way to store the screenshot of the feature branches.
 When a pull request is created, the screenshot of the feature branch is stored in the companion branch.
@@ -31,9 +31,9 @@ And it also save the cost of the storage because the screenshot of the outdated 
 # Why don't we use GitHub Actions artifacts?
 
 GitHub Actions artifacts is a good way to store the screenshot.
-However, it is not easy to see the changes of the screenshot on pull requests.
+However, it is not easy to see the changes of the screenshot on pull requests because the artifacts are stored as a zip file.
 
 # Why don't we commit the screenshot to the feature branch?
 
 It is also a good way to store the screenshot.
-However, the stored screenshot is not deleted and remains in the repository.
+However, the stored screenshot is not deleted and remains in the repository because Git keeps the history of the commits.
