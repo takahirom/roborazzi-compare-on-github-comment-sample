@@ -104,7 +104,6 @@ jobs:
           issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
 
-
       - name: Cleanup outdated companion branch
         run: |
           # Find outdated companion branches with last commit date
