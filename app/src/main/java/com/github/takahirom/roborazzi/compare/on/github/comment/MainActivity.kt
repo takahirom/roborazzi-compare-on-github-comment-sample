@@ -39,6 +39,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
   RoborazziscreenshotcompareongithubcommentsampleTheme {
-    Greeting("Android")
+    Greeting("Roborazzi")
   }
 }
