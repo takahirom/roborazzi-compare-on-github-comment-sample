@@ -24,4 +24,4 @@ The companion branch approach is a way to store the screenshot of the feature br
 When a pull request is created, the screenshot of the feature branch is stored in the companion branch.
 When the branch is outdated, the branch is deleted.
 
-<img src="https://user-images.githubusercontent.com/1386930/236186355-2510b489-3165-4730-8126-4481fe4c12a8.png" width="600" />
+<img src="https://user-images.githubusercontent.com/1386930/236188326-ddd617ae-b216-476c-9d92-e36ad02a2670.png" width="600" />
