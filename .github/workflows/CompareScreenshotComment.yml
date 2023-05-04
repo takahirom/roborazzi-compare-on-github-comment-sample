@@ -93,7 +93,7 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: fc
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           comment-author: 'github-actions[bot]'
           body-includes: Snapshot diff report
 

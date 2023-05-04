@@ -2,6 +2,7 @@
 
 This is a sample repository to demonstrate how to use [Roborazzi](https://github.com/takahirom/roborazzi) to compare snapshots on GitHub pull requests.
 
+Demo of the comment
 
 
 ## How to use
