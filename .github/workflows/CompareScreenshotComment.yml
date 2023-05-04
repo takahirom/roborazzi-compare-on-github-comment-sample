@@ -86,5 +86,5 @@ jobs:
       - name: Add or update comment on PR
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ steps.get-pull-request-number.pull_request_number }}
+          issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
