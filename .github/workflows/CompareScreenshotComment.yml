@@ -52,7 +52,9 @@ jobs:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         run:
           # orphan means it will create no history branch
+          git branch -D $BRANCH_NAME || true
           git checkout --orphan $BRANCH_NAME
+          git rm -rf .
       - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
           run_id: ${{ github.event.workflow_run.id }}
@@ -68,6 +70,8 @@ jobs:
           git push origin HEAD:$BRANCH_NAME -f
       - id: generate-diff-reports
         name: Generate diff reports
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         shell: bash
         run: |
           files=$(find . -type f -name "*_compare.png")
