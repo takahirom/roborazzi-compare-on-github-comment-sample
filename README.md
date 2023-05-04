@@ -20,7 +20,7 @@ Please refer to the .github/workflows directory for the workflow definitions.
 
 ## About the companion branch approach
 
-The companion branch approach is a way to store the screenshot of the feature branches.
+[The companion branch approach](https://github.com/DroidKaigi/conference-app-2022/pull/616) is a way to store the screenshot of the feature branches.
 When a pull request is created, the screenshot of the feature branch is stored in the companion branch.
 When the branch is outdated, the branch is deleted.
 This approach allows users to see changes of the screenshot of the feature branch on pull requests.
