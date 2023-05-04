@@ -16,14 +16,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  after-CompareScreenshot:
+  Comment-CompareScreenshot:
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
 
     permissions:
       actions: read # for downloading artifacts
-      contents: none
+      contents: write # for writing screenshot on branch
       issues: none
       checks: none
       pull-requests: write # for creating a comment on pull requests
@@ -33,69 +33,64 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Download PR Number'
-        uses: actions/github-script@v3.1.0
+      - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
-          script: |
-            var artifacts = await github.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: ${{github.event.workflow_run.id }},
-            });
-            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "pr"
-            })[0];
-            var download = await github.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
+          name: pr
+          run_id: ${{ github.event.workflow_run.id }}
+      - id: get-pull-request-number
+        name: Get pull request number
+        shell: bash
+        run: |
+          echo "pull_request_number=$(cat NR)" >> $GITHUB_OUTPUT
+      - name: main checkout
+        id: checkout-main
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - id: switch-companion-branch
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
+        run:
+          # orphan means it will create no history branch
+          git branch -D $BRANCH_NAME || true
+          git checkout --orphan $BRANCH_NAME
+          git rm -rf .
       - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
           run_id: ${{ github.event.workflow_run.id }}
-          name: screenshot-diff-test-results
-          path: .diff-reports
+          name: screenshot-diff
+          path: screenshot-diff
+      - id: push-screenshot-diff
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
+        run: |
+          git add "*compare.png"
+          git config --global user.name ScreenshotBot
+          git commit -m "Add screenshot diff"
+          git push origin HEAD:$BRANCH_NAME -f
       - id: generate-diff-reports
         name: Generate diff reports
+        env:
+          BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         shell: bash
         run: |
-          report_file=$(find .diff-reports -type f -name "compare-report.json")
-          
-          if [ -z "$report_file" ]; then
-            echo "Error: compare-report.json not found in .diff-reports directory."
-            exit 1
-          fi
-          
-          total=$(jq '.summary.total' "$report_file")
-          added=$(jq '.summary.added' "$report_file")
-          changed=$(jq '.summary.changed' "$report_file")
-          unchanged=$(jq '.summary.unchanged' "$report_file")
-          
-          if ! [[ $total =~ ^[0-9]+$ ]] || ! [[ $added =~ ^[0-9]+$ ]] || ! [[ $changed =~ ^[0-9]+$ ]] || ! [[ $unchanged =~ ^[0-9]+$ ]]; then
-            echo "Error: Invalid data in ${report_file}. Please ensure the file contains valid numeric values for total, added, changed, and unchanged."
-            exit 1
-          fi
-          
-          reports=$(cat << EOF
-          Summary of the Screenshot test Compare Report:
-          
-          Total: ${total}
-          Added: ${added}
-          Changed: ${changed}
-          Unchanged: ${unchanged}
-          EOF
-          )
+          files=$(find . -type f -name "*_compare.png")
           
           delimiter="$(openssl rand -hex 8)"
           echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
-          echo "$reports" >> $GITHUB_OUTPUT
+          
+          # Create markdown table header
+          echo "| Image |" >> $GITHUB_OUTPUT
+          echo "|-------|" >> $GITHUB_OUTPUT
+          
+          # Iterate over the files and create table rows
+          for file in $files; do
+          echo "| ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file?raw=true) |" >> $GITHUB_OUTPUT
+          done
           echo "${delimiter}" >> $GITHUB_OUTPUT
 
       - name: Add or update comment on PR
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ fromJSON(needs.linked-pull-request.outputs.pull-request).number }}
+          issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
