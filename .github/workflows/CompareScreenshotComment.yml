@@ -41,7 +41,7 @@ jobs:
         name: Get pull request number
         shell: bash
         run: |
-          echo "pull_request_number=$(cat pr/NR)" >> $GITHUB_OUTPUT
+          echo "pull_request_number=$(cat NR)" >> $GITHUB_OUTPUT
       - uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2.27.0
         with:
           run_id: ${{ github.event.workflow_run.id }}
