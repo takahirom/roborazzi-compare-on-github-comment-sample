@@ -89,12 +89,13 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
+          edit-mode: replace
 
       - name: Cleanup outdated companion branch
         run: |
           # Find outdated companion branches with last commit date
           git branch -r --format="%(refname:lstrip=3)" | grep companion_ | while read branch; do
-            last_commit_date=$(git log -1 --format=%cd $branch)
+            last_commit_date=$(git log -1 --format=%cd origin/$branch)
             last_commit_date_timestamp=$(date -d "$last_commit_date" +%s)
             now_timestamp=$(date +%s)
             # Delete branch if it's older than 1 month
