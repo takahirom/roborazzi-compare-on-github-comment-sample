@@ -60,7 +60,8 @@ jobs:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         shell: bash
         run: |
-          files=$(find . -type f -name "*_compare.png")
+          # Find all the files ending with _compare.png in roborazzi folder
+          files=$(find . -type f -name "*_compare.png" | grep "roborazzi/" | grep -E "^[a-zA-Z0-9_./-]+$")
           
           delimiter="$(openssl rand -hex 8)"
           echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
@@ -74,7 +75,6 @@ jobs:
           for file in $files; do
             # Get the file name and insert newlines every 20 characters
             fileName=$(echo "$(basename $file)" | sed -r 's/(.{20})/\1<br>/g')
-            echo $fileName
             echo "| [$fileName](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file) | ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file?raw=true) |" >> $GITHUB_OUTPUT
           done
           echo "${delimiter}" >> $GITHUB_OUTPUT
