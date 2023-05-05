@@ -7,26 +7,11 @@ on:
     types:
       - completed
 
-permissions: { }
-
-run-name: ${{ github.event.workflow_run.name }} - ${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}
-
-concurrency:
-  group: compare-screenshot-workflow-hook-${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}-${{ github.event.workflow_run.name }}
-  cancel-in-progress: true
-
 jobs:
   Comment-CompareScreenshot:
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
-
-    permissions:
-      actions: read # for downloading artifacts
-      contents: write # for writing screenshot on branch
-      issues: none
-      checks: none
-      pull-requests: write # for creating a comment on pull requests
 
     timeout-minutes: 2
 
@@ -81,12 +66,13 @@ jobs:
           
           # Create markdown table header
           echo "Snapshot diff report" >> $GITHUB_OUTPUT
-          echo "| Image |" >> $GITHUB_OUTPUT
-          echo "|-------|" >> $GITHUB_OUTPUT
+          echo "| File name | Image |" >> $GITHUB_OUTPUT
+          echo "|-------|-------|" >> $GITHUB_OUTPUT
           
           # Iterate over the files and create table rows
           for file in $files; do
-          echo "| ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file?raw=true) |" >> $GITHUB_OUTPUT
+            fileName = $(basename $file)
+            echo "| [$fileName](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file) | ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file?raw=true) |" >> $GITHUB_OUTPUT
           done
           echo "${delimiter}" >> $GITHUB_OUTPUT
       - name: Find Comment
