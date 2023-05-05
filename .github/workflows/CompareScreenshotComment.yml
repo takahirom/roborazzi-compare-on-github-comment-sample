@@ -51,6 +51,7 @@ jobs:
         run: |
           git add "*compare.png"
           git config --global user.name ScreenshotBot
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           git commit -m "Add screenshot diff"
           git push origin HEAD:$BRANCH_NAME -f
       - id: generate-diff-reports
