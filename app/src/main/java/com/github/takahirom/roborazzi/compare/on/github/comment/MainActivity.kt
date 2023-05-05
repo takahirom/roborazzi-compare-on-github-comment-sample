@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.takahirom.roborazzi.compare.on.github.comment.ui.theme.RoborazziscreenshotcompareongithubcommentsampleTheme
 
@@ -32,6 +33,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     text = "Hello $name!",
     style = MaterialTheme.typography.displayLarge,
     modifier = modifier
+      .testTag("hello_text")
   )
 }
 
