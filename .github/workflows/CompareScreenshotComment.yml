@@ -62,6 +62,11 @@ jobs:
         run: |
           # Find all the files ending with _compare.png in roborazzi folder
           files=$(find . -type f -name "*_compare.png" | grep "roborazzi/" | grep -E "^[a-zA-Z0-9_./-]+$")
+          # If there are no files, exit
+          if [ -z "$files" ]; then
+              echo "No files found"
+              exit 0
+          fi
           
           delimiter="$(openssl rand -hex 8)"
           echo "reports<<${delimiter}" >> $GITHUB_OUTPUT
@@ -81,6 +86,7 @@ jobs:
       - name: Find Comment
         uses: peter-evans/find-comment@v2
         id: fc
+        if: steps.generate-diff-reports.outputs.reports != ''
         with:
           issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           comment-author: 'github-actions[bot]'
@@ -88,13 +94,14 @@ jobs:
 
       - name: Add or update comment on PR
         uses: peter-evans/create-or-update-comment@v3
+        if: steps.generate-diff-reports.outputs.reports != ''
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ steps.get-pull-request-number.outputs.pull_request_number }}
           body: ${{ steps.generate-diff-reports.outputs.reports }}
           edit-mode: replace
 
-      - name: Cleanup outdated companion branch
+      - name: Cleanup outdated companion branches
         run: |
           # Find outdated companion branches with last commit date
           git branch -r --format="%(refname:lstrip=3)" | grep companion_ | while read branch; do
