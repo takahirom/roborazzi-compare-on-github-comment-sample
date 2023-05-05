@@ -72,7 +72,7 @@ jobs:
           # Iterate over the files and create table rows
           for file in $files; do
             # Get the file name and insert newlines every 20 characters
-            fileName="$(basename $file)" | sed -r 's/(.{20})/\1\n/g'
+            fileName="$(basename $file)" | sed -r 's/(.{20})/\1<br>/g'
             echo "| [$fileName](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file) | ![](https://github.com/takahirom/roborazzi-compare-on-github-comment/blob/$BRANCH_NAME/$file?raw=true) |" >> $GITHUB_OUTPUT
           done
           echo "${delimiter}" >> $GITHUB_OUTPUT
