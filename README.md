@@ -4,7 +4,7 @@ This is a sample repository to demonstrate how to use [Roborazzi](https://github
 
 Example of the comment
 
-<img src="https://user-images.githubusercontent.com/1386930/236186333-08f17449-6664-4df0-81ba-6babec1ea706.png" width="600" />
+<img src="https://user-images.githubusercontent.com/1386930/236480693-80483cde-53fe-4c04-ba1f-2352e14b5f15.png" width="600" />
 
 https://github.com/takahirom/roborazzi-compare-on-github-comment-sample/pull/1#issuecomment-1534555809
 
