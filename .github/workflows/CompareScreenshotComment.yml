@@ -97,7 +97,7 @@ jobs:
           # Find outdated companion branches with last commit date
           git branch -r --format="%(refname:lstrip=3)" | grep companion_ | while read branch; do
             last_commit_date=$(git log -1 --format=%cd origin/$branch)
-            last_commit_date_timestamp=$(date -d "$last_commit_date" +%s --dateformat="%a %b %e %H:%M:%S %Y %z")
+            last_commit_date_timestamp=$(date -d "$last_commit_date" +%s)
             now_timestamp=$(date +%s)
             # Delete branch if it's older than 1 month
             # if [ $((now_timestamp - last_commit_date_timestamp)) -gt 2592000 ]; then
