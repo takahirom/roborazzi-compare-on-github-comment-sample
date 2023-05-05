@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,6 +34,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     text = "Hello $name!",
     style = MaterialTheme.typography.displayLarge,
     modifier = modifier
+      .wrapContentHeight()
       .testTag("hello_text")
   )
 }
