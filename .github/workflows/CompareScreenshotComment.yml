@@ -60,7 +60,7 @@ jobs:
             fi
           done
           echo "exist_valid_files=false" >> $GITHUB_OUTPUT
-          exit 1
+          exit 0
       - id: push-screenshot-diff
         if: steps.check-if-there-are-valid-files.outputs.exist_valid_files == 'true'
         env:
