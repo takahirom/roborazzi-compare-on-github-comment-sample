@@ -61,8 +61,8 @@ jobs:
             fi
           done
           echo "exist_valid_files=$exist_valid_files" >> $GITHUB_OUTPUT
-          exit 0
       - id: push-screenshot-diff
+        shell: bash
         if: steps.check-if-there-are-valid-files.outputs.exist_valid_files == 'true'
         env:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
@@ -82,6 +82,7 @@ jobs:
           git push origin HEAD:$BRANCH_NAME -f
       - id: generate-diff-reports
         name: Generate diff reports
+        if: steps.check-if-there-are-valid-files.outputs.exist_valid_files == 'true'
         env:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
         shell: bash
