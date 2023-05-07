@@ -24,7 +24,7 @@ Please refer to the .github/workflows directory for the workflow definitions.
 When a pull request is created, the screenshot of the feature branch is stored in the companion branch.
 When the branch is outdated, the branch is deleted.
 This approach allows users to see changes of the screenshot of the feature branch on pull requests.
-And it also saves the cost of the storage because the screenshot of the outdated branches are deleted.
+Outdated branches are deleted to reduce the Git repository size and ensure that only relevant screenshots are retained.
 
 <img src="https://user-images.githubusercontent.com/1386930/236188326-ddd617ae-b216-476c-9d92-e36ad02a2670.png" width="600" />
 
