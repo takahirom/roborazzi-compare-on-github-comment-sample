@@ -7,6 +7,8 @@ on:
     types:
       - completed
 
+permissions: {}
+
 jobs:
   Comment-CompareScreenshot:
     if: >
@@ -16,8 +18,9 @@ jobs:
     timeout-minutes: 2
 
     permissions:
-      contents: write
-      actions: write
+      actions: read # for downloading artifacts
+      contents: write # for pushing screenshot-diff to companion branch
+      pull-requests: write # for creating a comment on pull requests
 
     runs-on: ubuntu-latest
 
