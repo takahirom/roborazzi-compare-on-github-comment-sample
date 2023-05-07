@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 2
 
     permissions:
-      contents: read
+      contents: write
       actions: write
 
     runs-on: ubuntu-latest
