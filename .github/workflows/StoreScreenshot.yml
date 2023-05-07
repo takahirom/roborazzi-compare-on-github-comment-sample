@@ -37,7 +37,7 @@ jobs:
         with:
           name: screenshot
           path: |
-            */build/outputs/roborazzi
+            **/build/outputs/roborazzi
           retention-days: 30
 
       - uses: actions/upload-artifact@v3
@@ -45,7 +45,7 @@ jobs:
         with:
           name: screenshot-reports
           path: |
-            */build/reports
+            **/build/reports
           retention-days: 30
 
       - uses: actions/upload-artifact@v3
@@ -53,5 +53,5 @@ jobs:
         with:
           name: screenshot-test-results
           path: |
-            */build/test-results
+            **/build/test-results
           retention-days: 30
