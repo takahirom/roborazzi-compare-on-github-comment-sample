@@ -6,10 +6,16 @@ on:
       - main
   pull_request:
 
+permissions: {}
+
 jobs:
   store-screenshot-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+
+    permissions:
+      contents: read # for clone
+      actions: write # for upload-artifact
 
     steps:
       - name: Checkout
@@ -30,14 +36,15 @@ jobs:
       - name: record screenshot
         id: record-test
         run: |
-          ./gradlew recordRoborazziDebug --stacktrace
+          # Use --rerun-tasks to disable cache for test task
+          ./gradlew recordRoborazziDebug --stacktrace --rerun-tasks
 
       - uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: screenshot
           path: |
-            */build/outputs/roborazzi
+            **/build/outputs/roborazzi
           retention-days: 30
 
       - uses: actions/upload-artifact@v3
@@ -45,7 +52,7 @@ jobs:
         with:
           name: screenshot-reports
           path: |
-            */build/reports
+            **/build/reports
           retention-days: 30
 
       - uses: actions/upload-artifact@v3
@@ -53,5 +60,5 @@ jobs:
         with:
           name: screenshot-test-results
           path: |
-            */build/test-results
+            **/build/test-results
           retention-days: 30

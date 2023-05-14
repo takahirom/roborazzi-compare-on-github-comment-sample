@@ -6,10 +6,16 @@ on:
       - main
   pull_request:
 
+permissions: {}
+
 jobs:
   compare-screenshot-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+
+    permissions:
+      contents: read # for clone
+      actions: write # for upload-artifact
 
     steps:
       - name: Checkout
@@ -37,14 +43,14 @@ jobs:
       - name: compare screenshot test
         id: compare-screenshot-test
         run: |
-          ./gradlew compareRoborazziDebug --stacktrace -Pscreenshot
+          ./gradlew compareRoborazziDebug --stacktrace
 
       - uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: screenshot-diff
           path: |
-            */build/outputs/roborazzi
+            **/build/outputs/roborazzi
           retention-days: 30
 
       - uses: actions/upload-artifact@v3
@@ -52,7 +58,7 @@ jobs:
         with:
           name: screenshot-diff-reports
           path: |
-            */build/reports
+            **/build/reports
           retention-days: 30
 
       - uses: actions/upload-artifact@v3
@@ -60,7 +66,7 @@ jobs:
         with:
           name: screenshot-diff-test-results
           path: |
-            */build/test-results
+            **/build/test-results
           retention-days: 30
 
       - name: Save PR number
