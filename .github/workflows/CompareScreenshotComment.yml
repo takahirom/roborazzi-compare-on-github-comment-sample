@@ -38,7 +38,7 @@ jobs:
         id: checkout-main
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.event.pull_request.base.ref || github.event.repository.default_branch }}
       - id: switch-companion-branch
         env:
           BRANCH_NAME: companion_${{ github.event.workflow_run.head_branch }}
@@ -101,7 +101,7 @@ jobs:
             echo "reports<<${delimiter}"
           
             # Create markdown table header
-            echo "Snapshot diff report"
+            echo "Snapshot diff report vs base branch: ${{ github.event.workflow_run.event  == 'pull_request' && github.event.workflow_run.event.pull_request.base.ref || github.event.repository.default_branch }}"
             echo "| File name | Image |"
             echo "|-------|-------|"
           } >> "$GITHUB_OUTPUT"
