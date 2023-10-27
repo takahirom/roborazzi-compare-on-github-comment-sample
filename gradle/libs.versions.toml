@@ -24,7 +24,7 @@ ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.10.1" }
+robolectric = { group = "org.robolectric", name = "robolectric", version = "4.10.3" }
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 
