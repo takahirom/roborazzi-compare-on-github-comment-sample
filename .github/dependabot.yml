@@ -18,13 +18,13 @@ updates:
     schedule:
       interval: monthly
       day: wednesday
-
-  - package-ecosystem: gradle
-    directory: "/"
-    registries:
-    - maven-google
-    - gradle-plugin-portal
-    open-pull-requests-limit: 5
-    schedule:
-      interval: monthly
-      day: wednesday
+  # We don't need to update gradle
+  # - package-ecosystem: gradle
+  #   directory: "/"
+  #   registries:
+  #   - maven-google
+  #   - gradle-plugin-portal
+  #   open-pull-requests-limit: 5
+  #   schedule:
+  #     interval: monthly
+  #     day: wednesday
