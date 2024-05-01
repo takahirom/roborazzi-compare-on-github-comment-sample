@@ -29,7 +29,7 @@ jobs:
 
       # Better than caching and/or extensions of actions/setup-java
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@3b1b3b9a2104c2b47fbae53f3938079c00c9bb87 # v3.0.0
+        uses: gradle/gradle-build-action@4c39dd82cd5e1ec7c6fa0173bb41b4b6bb3b86ff # v3.3.2
         with:
           gradle-version: wrapper
 
