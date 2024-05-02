@@ -1,5 +1,8 @@
 # Roborazzi compare snapshot comment on GitHub pull request sample
 
+
+
+
 This is a sample repository to demonstrate how to use [Roborazzi](https://github.com/takahirom/roborazzi) to compare snapshots on GitHub pull requests.
 
 Example of the comment
