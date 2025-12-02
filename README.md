@@ -1,5 +1,5 @@
 # Roborazzi compare snapshot comment on GitHub pull request sample
-
+20251202
 This is a sample repository to demonstrate how to use [Roborazzi](https://github.com/takahirom/roborazzi) to compare snapshots on GitHub pull requests.
 
 Example of the comment
